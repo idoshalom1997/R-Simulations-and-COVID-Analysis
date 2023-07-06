@@ -1,24 +1,30 @@
 ---
-
-title: '52414, 2022-23: Home Exam'
-
+title: "52414, 2022-23: Home Exam"
 output:
-
-  html_document: default
-
-  pdf_document: default
-
-date: "July 2nd, 2023"
-
+  html_document:
+    theme: spacelab
+    toc: yes
+    tod_depth: 1
+    toc_float: yes
+    df_print: paged
+  pdf_document:
+    toc: yes
+date: "July 7nd, 2023"
 ---
 
-### Submission Instructions (Please read carefully)   
+# Submission Instructions (Please read carefully)   
 
-The exam will be submitted *individually* by uploading the solved exam `Rmd` and `html` files to the course `moodle`. 
 
-Please name your files as `52414-HomeExam_2022_23_ID.Rmd` and `52414-HomeExam_2022_23_ID.html` where `ID` is replaced by your ID number (do *not* write your *name* in the file name or in the exam itself).
 
-*Grading:* There are $2$ questions with overall $10$ sub-questions. Each sub-question is worth $10$ points for the exam grade. 
+The exam will be submitted **individually** by uploading the solved exam `Rmd` and `html` files to the course `moodle`. 
+
+Please name your files as `52414-HomeExam_2022_23_ID.Rmd` and `52414-HomeExam_2022_23_ID.html` where `ID` is replaced by your ID number (do **not** write your **name** in the file name or in the exam itself).
+
+
+
+**Grading:** There are $2$ questions with overall $10$ sub-questions. Each sub-question is worth $10$ points for the exam grade. 
+
+
 
 Once you click on the `moodle` link for the home exam, the exam will start and you have three days (72 hours) to complete and submit it. 
 
@@ -28,13 +34,21 @@ You may use all course materials, the web and other written materials and R libr
 
 You are NOT allowed to discuss any of the exam questions/materials with other students. 
 
-*Analysis and Presentation of Results:*
 
-Write your answers and explanations in the text of the `Rmd` file (not in the `code`). <br>
+
+
+
+**Analysis and Presentation of Results:**
+
+
+
+Write your answers and explanations in the text of the `Rmd` file (*not* in the `code`). <br>
 
 The text of your answers should be next to the relevant code, plots and tables and refer to them, and not at a separate place at the end. <br>
 
 You need to explain every step of your analysis. When in doubt, a more detailed explanation is better than omitting explanations. 
+
+
 
 Give informative titles, axis names and names for each curve/bar in your graphs. 
 
@@ -42,7 +56,9 @@ In some graphs you may need to change the graph limits. If you do so, please inc
 
 Add informative comments explaining your code <br>
 
-Whenever possible, use *objective* and *specific* terms and quantities learned in class, and avoid *subjective* and *general* non-quantified statements. For example: <br>
+
+
+Whenever possible, use **objective** and **specific** terms and quantities learned in class, and avoid **subjective** and **general** non-quantified statements. For example: <br>
 
 `Good:` "We see a $2.5$-fold increase in the curve from Jan. 1st to March 1st". <br>
 
@@ -52,9 +68,13 @@ Whenever possible, use *objective* and *specific* terms and quantities learned i
 
 `Bad:` "The five points on the sides seem far from the middle". 
 
+
+
 Sometimes `Tables` are the best way to present your results (e.g. when asked for a list of items). Exclude irrelevant
 
 rows/columns. Display clearly items' names in your `Tables`.
+
+
 
 Show numbers in plots/tables using standard digits and not scientific display. 
 
@@ -62,63 +82,87 @@ That is: 90000000 and not 9e+06.
 
 Round numbers to at most 3 digits after the dot - that is, 9.456 and not 9.45581451044
 
+
+
 Some questions may require data wrangling and manipulation which you need to 
 
 decide on. The instructions may not specify precisely the exact plot you should use
 
 (for example: `show the distribution of ...`). In such cases, you should decide what and how to show the results. 
 
+
+
 When analyzing real data, use your best judgment if you encounter missing values, negative values, NaNs, errors in the data etc. (e.g. excluding them, zeroing negative values..) and mention what you have done in your analysis in such cases. 
+
+
 
 Required libraries are called in the `Rmd` file. Install any library missing from your `R` environment. You are allowed to add additional libraries if you want. 
 
-If you do so, *add them at the start of the Rmd file, right below the existing libraries, and explain what libraries you've added, and what is each new library used for*. 
+If you do so, **add them at the start of the Rmd file, right below the existing libraries, and explain what libraries you've added, and what is each new library used for**. 
+
+
 
 This is an .Rmd file. Copy it with your mouse to create and Rmd file, and edit the file to include your questions.
 
+
+
+
+
+
+
 Good luck!
 
-##############################################################################
 
-{r, echo = FALSE, results = 'hide', warning=FALSE, message=FALSE}
 
+
+
+# Set - up
+
+
+```{r, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+# Clear desk
+rm(list=ls())
+
+# Load the standard libraries
 library(maps)
-
 library(tidyverse)
-
-library(rvest)  # for html
-
-library(uniformly) # for sampling uniformly from the sphere 
-
-library(lubridate)  # for parsing time 
-
+library(rvest) # for html
+library(uniformly) # for sampling uniformly from the sphere
+library(lubridate) # for parsing time
 library(e1071) # skewness and kurtosis
-
 library(maditr)
-
 library(data.table)
-
 library(caTools)
 
+
+# Using standard digits and not scientific display
 options(scipen=999)
+```
 
-<br/><br/>
 
-## Q1. Random permutations   
+# Q1. Random permutations:
 
 ![](https://miro.medium.com/v2/resize:fit:4800/format:webp/1*C8JOlHLv6F7IMD0vT3yDSg@2x.png)
 
-In this question we study some properties of random *permutations*. A permutation of $n$ elements is a vector $v \in \{1,2,..,n\}^n$ such that $\forall i \neq j$ also $v(i) \neq v(j)$. For example, the vector $v = (3,4,1,5,2)$ is a permutation of $5$ elements. 
+In this question we study some properties of random **permutations**. A permutation of $n$ elements is a vector $v \in \{1,2,..,n\}^n$ such that $\forall i \neq j$ also $v(i) \neq v(j)$. For example, the vector $v = (3,4,1,5,2)$ is a permutation of $5$ elements. 
 
 The set of permutations on $n$ elements is denoted $S_n$, and has size $|S_n|  = n!$. We consider here radnom sampling of permutation, i.e. a uniform distribution over all $n!$ permutations, where the probability of each permutation being chosen is $\frac{1}{n!}$.
+
+
+
+
 
 a. (Confused secretary Problem): 
 
 A secretary has $n$ letters and $n$ envelopes with addresses written on them. 
 
-The secretary mixes the letters and puts each letter in a random envelope. 
+The secretary mixes the letters and puts each letter in a *random* envelope. 
 
-Estimate the probability that no letter was sent to the correct address for $n=100$, by running $10,000$ simulations of this process. 
+Estimate the probability that *no* letter was sent to the correct address for $n=100$, by running $10,000$ simulations of this process. 
+
+
 
 b. For a permutation $v \in S_n$,  a cycle of length $k$ is a vector of integers $(a_1, a_2, a_3, a_4, .., a_k)$ such that $v(a_1) = a_2, v(a_2) = a_3, .., v(a_{k-1})=a_k$ and $v(a_k) = 1$. For example, for the permutation $v = (3,4,1,5,2)$ we have the cycle $(1,3)$ of length $2$ because $v(1) = 3$ and $v(3) = 1$. We also have the cycle $(2,4,5)$ of length $3$, because $v(2) = 4, v(4) = 5$ and $v(5)=2$. See also another example of the cycles of a permutation in the figure above.  <br>
 
@@ -134,19 +178,25 @@ Fit a simple linear regression model to the log-transformed data add the regress
 
 Use the fitted model to deduce a formula for the expectation, i.e. a function $g(k)$ such that $E[X_k] = g(k)$. 
 
-c. For a random permutation of length $n=100$, Let $p_{12}$ be the probability that the values $1$ and $2$ are in the same cycle? 
+
+
+c. For a random permutation of length $n=100$, Let $p_{12}$ be the probability that the values $1$ and $2$ are in the same cycle.
 
 Estimate this probability using $10,000$ simulations. 
 
 Denote your estimator by $\hat{p}_{12}$. Estimate also the standard deviation of your estimator, 
 
-i.e. provide and estimate $\hat{\sigma}(\hat{p}{12})$ of $\sigma(\hat{p}{12})$.
+i.e. provide and estimate $\hat{\sigma}(\hat{p}_{12})$ of $\sigma(\hat{p}_{12})$.
+
+
+
+
 
 d. Suppose that Alice and Bob play poker with a deck of only $13$ cards numbered $1,2,..,13$ (all from the same symbol), 
 
 and each of them draw $5$ different cards at random (with $3$ cards remaining in the deck). 
 
-Let $A$ be the event that Alice gets a `straight` hand (i.e. $5$ consecutive numbers on her cards)? 
+Let $A$ be the event that Alice gets a `straight` hand (i.e. $5$ consecutive numbers on her cards).
 
 Estimate the probability $p_A \equiv P(A)$, this time using $100,000$ simulations. <br>
 
@@ -154,7 +204,7 @@ Let $B$ be the event that Bob gets a `straight` hand.
 
 Suppose now that we know that Alice got a `straight` hand. Let $p_{B|A} = P(B|A)$ be the conditional probability that Bob also got a `straight` hand given this knowledge.  
 
-Estimate this probability using $100,000$ simulations and the method of *rejection sampling*. Is $\hat{p}_{B|A}$ higher or lower than $\hat{p}_A$? Explain <br>
+Estimate this probability using $100,000$ simulations and the method of **rejection sampling**. Is $\hat{p}_{B|A}$ higher or lower than $\hat{p}_A$? Explain <br>
 
 Next, report the fraction of the samples you have rejected.  
 
@@ -162,15 +212,395 @@ Estimate the standard deviations of your two estimators.
 
 Is $\hat{\sigma}(\hat{p}_{B|A})$ higher or lower than $\hat{\sigma}(\hat{p}_A)$? Explain
 
-*Solutions: QU. 1*
 
-[Write your code and text explanations here]
+**Solutions: QU. 1**
 
-## Q2. Analysis and Visualization of the COVID-19 Data
+
+## Sub-section A:
+
+I created a function called simulate_derangements that simulates derangements. it takes a parameter n representing the number of letters or envelopes.
+Inside the function, i initialize a counter variable called count.
+Then, i run a loop for a specified number of iterations, randomly assigning letters to envelopes each time. if no letter matches its corresponding envelope, i increment the count variable.
+After the loop finishes, i return the final value of count, representing the total number of derangements.
+in the main part of the code, i set the values for n (the number of letters or envelopes) and simulations (the number of iterations).
+i calculate the probability of derangements by dividing the count of derangements by the total number of simulations.
+Finally, i display the estimated probability of no letter being sent to the correct address for the given value of n.
+
+
+```{r, warning=FALSE, message=FALSE}
+# Creating a  general simulation function to this case
+simulate_derangements <- function(n) {
+  # Initialize the number of derangements
+  count <- 0
+  # Running 10000 iterations (or any requested number)
+  for (i in 1:simulations) {
+    letters <- 1:n
+    envelopes <- 1:n
+    # Making the randomization of the letters sampling 
+    letters <- sample(letters)
+    # Identifies and counts all possible derangements
+    #(that is, all cases that not even one letter was sent to the correct address)
+    if (all(letters != envelopes)) {
+      count <- count + 1
+    }
+  }
+  return(count)
+}
+
+# Setting the parameters as requested
+n <- 100
+simulations <- 10000
+
+# Computing the probability of derangements cases 
+probability <- round(simulate_derangements(n) / simulations, 3)
+
+# Displaying the result
+cat("The estimated probability that no letter was sent to the correct address for n =", n, "is", probability)
+```
+
+
+To Estimate the probability that no letter was sent to the correct address for any equal numbers of letters and envelopes, i needed to count how many cases no letter was sent to the correct address from all the permutations of $n = 100$, and then divide it by the number of possible permutations when $n = 100$.
+
+To compute the numerator i used the mathematical formula to "Derangements":
+
+For each positive integer \(n\), the number \(d_n\) of derangements of \([n]\) satisfies
+
+\[d_n = \sum_{k=0}^{n} (-1)^k \binom{n}{k} (n-k)!\]
+
+Derangements is a permutation of the elements of a set in which no element appears in its original position.
+In this case it is exactly the case of "no letter was sent to the correct address".
+
+For the denominator, is just the number of permutations. 
+
+Turns out,that there is a mathematical theorem to estimate this probability:
+
+For a positive integer $n$, let $d_n$ denote the number of derangements of $[n]$. Then,
+
+\[ \lim_{n \to \infty} \frac{d_n}{n!} = \frac{1}{e} \approx 0.368 \]
+
+Equivalently, the fraction of all permutations of $[n]$ that are derangements approaches $\frac{1}{e}$ as $n$ increases.
+
+So,in general, we would expect that our simulations will compute an estimator  
+that is approximately $\frac{1}{e}$. 
+
+
+## Sub-section B:
+
+
+```{r, warning=FALSE, message=FALSE}
+# Creating  a Function to calculate the number of cycles of length k in a permutation
+count_cycles_of_length_k <- function(perm, k) {
+  # length of the permutation
+  n_perm <- length(perm)
+  # Initializing a logical vector to track visited elements
+  visited <- rep(FALSE, n_perm)
+  # Counter for cycles of length k
+  cycles_k <- 0 
+  
+  for (i in 1:n_perm) {
+    if (!visited[i]) {
+      # Start at element i
+      j <- i 
+      # Counter for the length of the cycle
+      cycle_length <- 0  
+      
+      while (!visited[j]) {
+        # Marking element j as visited
+        visited[j] <- TRUE  
+        # Moving to the next element in the cycle
+        j <- perm[j] 
+        # Increasing cycle length
+        cycle_length <- cycle_length + 1  
+      }
+      
+      if (cycle_length == k) {
+        # Increasing counter for cycles of length k
+        cycles_k <- cycles_k + 1  
+      }
+    }
+  }
+  
+  return(cycles_k)
+}
+
+
+# Specify the number of elements in the permutation
+n_perm <- 100  
+
+# Creating a vector to store the expected values, initialized with zeros
+expected_values <- rep(0, n_perm)  
+
+# Performing simulations
+for (s in 1:simulations) {
+   # Generating a random permutation of length n_perm
+  perm <- sample(1:n_perm)  
+  
+  # Calculate the number of cycles of length k in the permutation for each k
+  for (k in 1:n_perm) {
+    # Counting the cycles of length k in the permutation
+    cycles_k <- count_cycles_of_length_k(perm, k)
+    # Adding the count to the corresponding expected value
+    expected_values[k] <- expected_values[k] + cycles_k  
+  }
+}
+
+# Calculating the expected values of each k length cycle 
+expected_values <- round(expected_values / simulations, 3)
+
+# Displaying the results with 5 values in each row
+for (k in 1:n) {
+  cat("E[X", k, "] =", expected_values[k])
+  if (k %% 5 == 0 && k != n) {
+    cat("\n")  # Start a new line after every 5th value
+  } else if (k != n) {
+    cat(", ")
+  }
+}
+```
+
+
+I created a function called count_cycles_of_length_k that counts cycles of a specified length k in a given permutation.
+The function iterates through each element of the permutation, exploring cycles by following the permutation's mapping. it counts the length of each cycle and increments a counter if it matches the desired length k.
+After analyzing the entire permutation, the function returns the total count of cycles of length k.
+To perform simulations, i generate random permutations of length n.
+For each permutation, i use the count_cycles_of_length_k function to count cycles of different lengths k and accumulate the counts in the expected_values vector.
+Finally, i calculate the expected values by dividing the accumulated counts by the total number of simulations.
+The resulting expected_values vector represents the expected values of cycles of different lengths in the permutations.
+
+
+```{r, warning=FALSE, message=FALSE}
+# Creating a data frame for plotting (for convenience)
+data_perm_plot<- data.frame(k = 1:n_perm, expected_values = expected_values)
+
+# Plotting the estimates E[Xk] as a function of cycle length k
+ggplot(data_perm_plot, aes(x = k, y = expected_values)) +
+  geom_line() +
+  geom_point() +
+  xlab("Cycle Length (k)") +
+  ylab("Estimate E[Xk]") +
+  ggtitle("Estimates of E[Xk] as a Function of Cycle Length k")
+```
+
+
+The plot of \(\hat{E}[X_k]\) as a function of cycle length k appearing as approximately $y =\frac{1}{k}$.
+
+The reason for this relationship is that in a random permutation, each element has an equal probability of being part of a cycle of any given length.
+As the cycle length increases, the probability of observing cycles of that length decreases,or in other words,
+As k approaches the length of the permutation (k → n_perm), it becomes increasingly unlikely to observe cycles of length k because the elements are almost guaranteed to form a single cycle encompassing the entire permutation.
+
+
+```{r, warning=FALSE, message=FALSE}
+# Performing log transformation on the estimates 
+log_expected <- log(expected_values)
+log_k <- log(1:n_perm)
+
+# Creating a data frame for plotting
+log_data_perm_plot <- data.frame(log_k = log_k, log_expected = log_expected)
+
+# Plotting log(E^[Xk]) vs. log(k)
+ggplot(log_data_perm_plot, aes(x = log_k, y = log_expected)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE, color = "blue",size = 0.9) +
+   xlab("log(Cycle Length)") +
+  ylab("log(Estimate E[Xk])") +
+  ggtitle("Log-Transformed Estimates")
+
+```
+
+
+As we can see, this relationship between \(\log(\hat{E}[X_k])\) and \(\log(k)\) is linear with a approximately negative slope of -1.
+
+This could indicate that the transformation of the log operator fit to define the relationship between Estimate number of cycles of length k in a random permutation to the cycle length.
+
+As requested, i will show the mathematical connection that lead to this result:
+
+\[
+\begin{align*}
+\log[E(X_k)] &= -\log(k) \\
+e^{\log[E(X_k)]} &= e^{-\log(k)} \\
+E(X_k) &= e^{-\log(k)} \\
+E(X_k) &= \frac{1}{e^{\log(k)}} \\
+E(X_k) &= \frac{1}{k}
+\end{align*}
+\]
+
+```{r, warning=FALSE, message=FALSE}
+# Fitting a linear regression model
+log_reg <- lm(log_expected ~ log_k, data = log_data_perm_plot)
+
+# Extracting the coefficients of the linear regression model
+intercept <- coef(log_reg)[1]
+slope <- round(coef(log_reg)[2], 3)
+
+# Printing the formula for the expectation (g(k))
+cat("E[Xk] =", round(exp(intercept), 3), "* k^", slope)
+```
+
+So,as we might expect at this point, when running a regression (and handle with the intercept accordingly with the transformation), we will get that the log transformation fitted the linear regression model, with indicate an initial exponential relationship.
+
+
+## Sub-section C:
+
+I performed simulations to estimate the probability of finding both 1 and 2 in the same cycle of a permutation.
+I initialized a counter to keep track of the number of times 1 and 2 appeared in the same cycle, and i created an empty vector to store estimators for each simulation.
+Using a loop, i generated random permutations and searched for cycles within each permutation. Whenever i found a cycle containing both 1 and 2, I incremented the counter and set the estimator for that simulation to 1.
+Once all simulations were completed, i calculated the estimated probability by dividing the count of same cycles by the total number of simulations. i rounded the result to three decimal places.
+To estimate the standard deviation of the estimator, i used the estimators vector and calculated its standard deviation, rounding the result to three decimal places.
+
+
+```{r, warning=FALSE, message=FALSE}
+count_same_cycle <- 0  # Initializing a counter to keep track of the number of times 1 and 2 are in the same cycle
+estimators <- numeric(simulations)  # Creating an empty vector to store estimators for each simulation
+
+# Performing the simulations
+for (i in 1:simulations) {  # Starting a loop to perform simulations
+  # Generating a random permutation of numbers from 1 to n
+  perm <- sample(n) 
+  
+  # Finding the cycles in the permutation
+  cycles_1_2 <- vector("list")  # Creating an empty list to store cycles containing both 1 and 2
+  visited_1_2 <- rep(FALSE, n)  # Creating a logical vector to keep track of visited numbers
+  for (j in 1:n) {  # Iterate through each number in the permutation
+    if (!visited_1_2[j]) {  # If the number has not been visited yet
+      cycle <- c(j)  # Start a new cycle with the current number
+      visited_1_2[j] <- TRUE  # Marking the number as visited
+      k <- perm[j]  # Getting the next number in the cycle
+      while (k != j) {  # Continue adding numbers to the cycle until the original number is reached
+        cycle <- c(cycle, k)  # Adding the current number to the cycle
+        visited_1_2[k] <- TRUE  # Marking the number as visited
+        k <- perm[k]  # Getting the next number in the cycle
+      }
+      cycles_1_2 <- c(cycles_1_2, list(cycle))  # Adding the cycle to the list of cycles
+    }
+  }
+  
+  # Check if 1 and 2 are in the same cycle
+  for (cycle in cycles_1_2) {  # Iterate through each cycle in the list
+    if (1 %in% cycle & 2 %in% cycle) {  # If both 1 and 2 are present in the cycle
+      count_same_cycle <- count_same_cycle + 1  # Increase the counter
+      estimators[i] <- 1  # Set the estimator for this simulation to 1
+      break  # Exit the loop since the condition is satisfied
+    }
+  }
+}
+
+# At this point, all simulations have been performed
+
+# Calculate the estimated probability
+p12 <- round(count_same_cycle / simulations, 3)  # Estimate the probability and round it to three decimal places
+
+# Calculate the estimated standard deviation of p^12
+sigma_p12_hat <- round(sd(estimators), 3)  # Estimate the standard deviation and round it to three decimal places
+
+
+# Display the results
+cat("Estimated probability p12:", p12, "\n")
+cat("Estimated standard deviation of p12:", sigma_p12_hat)
+```
+
+
+When i search in the internet, a ran across this theory,which is relevant to this case:
+
+Let us consider a random space of random n-permutation for $2 \leq n$.
+Elementary events are n-permutations, and each of them has the same probability $\frac{1}{n!}$. We want to calculate the probability that both 1 and 2 will be in the same cycle.
+
+\[ P(A) = \frac{\sum_{k}^{n-2} \binom{n-2}{k}\cdot (k+1)! \cdot (n-2-k)!}{n!} = \frac{\sum_{k=0}^{n-2}(n-2)!(k+1)}{n!}=\frac{\sum_{k=0}^{n-2}(k+1)}{n(n-1)} \]
+
+Therefore, the series converges to $\frac{1}{2}$ as n goes to infinity .
+
+The formula is a little complicated but the main idea of the question is this:
+
+When randomly assigning numbers using a permutation function, if we start with applying the permutation function to the specific element 1 and repeatedly apply the function to subsequent results, choosing numbers randomly each time from the remaining unassigned numbers, the probability of encountering the number 1 before the number 2 is equal to the probability of encountering 2 before 1. Both 1 and 2 are equally likely to be chosen at each step, resulting in a 50% chance for 1 and 2 to be in the same cycle and a 50% chance for them to be in different cycles.
+
+
+## Sub-section D:
+
+I defined a function called check_straight. This function checks if a given hand forms a straight by sorting the hand in ascending order and verifying if the difference between consecutive elements is always 1.
+Next, i set the number of simulations to 100,000 and initialized counters for Alice, Bob, and rejected hands.
+Moving on to the simulations, for each simulation (represented by the loop variable i), i drew 5 random cards for Alice from a deck of 13 cards. If Alice's hand is a straight, i incremented Alice's counter.
+If Alice's hand is a straight, i drew 5 random cards for Bob from the remaining deck (excluding Alice's hand). If Bob's hand is also a straight, i incremented Bob's counter.
+If Alice's hand is not a straight, it is considered rejected, and i incremented the rejected hands counter.
+After all simulations, i calculated the probabilities. i rounded the probabilities to three decimal places. pA represents the probability of Alice having a straight, pB_given_A represents the probability of Bob having a straight given that Alice has a straight, and fraction_rejected represents the fraction of rejected hands.
+Additionally, i calculated the standard deviations of pA and pB_given_A using the formulas for Bernoulli standard deviation and rounded the results to three decimal places.
+
+
+```{r, warning=FALSE, message=FALSE}
+# Defining the check_straight function
+# This function checks if a given hand forms a straight
+# It takes a hand (an array of cards) as input, sorts the hand in ascending order,
+# and checks if the difference between consecutive elements is always 1
+check_straight <- function(hand) {
+  sorted_hand <- sort(hand)
+  all(diff(sorted_hand) == 1)
+}
+
+# Number of simulations
+num_simulations <- 100000
+
+# Initialize counters
+alice_counter <- 0  
+bob_counter <- 0  
+rejected_counter <- 0  
+
+# Performing the simulations
+for (i in 1:num_simulations) {
+  # Draw 5 random cards for Alice
+  deck <- 1:13
+  alice_hand <- sample(deck, 5, replace = FALSE)
+  
+  if (check_straight(alice_hand)) {
+    # Alice's hand is a straight
+    alice_counter <- alice_counter + 1
+    
+    # Draw 5 random cards for Bob from the remaining deck (excluding Alice's hand)
+    remaining_deck <- setdiff(deck, alice_hand)
+    bob_hand <- sample(remaining_deck, 5, replace = FALSE)
+    
+    if (check_straight(bob_hand)) {
+      # Bob's hand is also a straight
+      bob_counter <- bob_counter + 1
+    }
+  } else {
+    # Alice's hand is not a straight, the sample is rejected
+    rejected_counter <- rejected_counter + 1
+  }
+}
+
+# Calculating probabilities
+pA <- round((alice_counter / num_simulations), 3)
+pB_given_A <- round((bob_counter / alice_counter), 3)
+fraction_rejected <- round((rejected_counter / num_simulations), 3)
+
+# Calculating standard deviations
+sigma_pA <- round(sqrt(pA * (1 - pA)), 3) #Bernoulli SD 
+sigma_pB_given_A <- round(sqrt(pB_given_A * (1 - pB_given_A)), 3) #Bernoulli SD
+
+# Output the results
+cat("Estimated probability pA:", format(pA, digits = 4), "\n")
+cat("Estimated conditional probability pB|A:", format(pB_given_A, digits = 4), "\n")
+cat("Fraction of rejected samples:", format(fraction_rejected, digits = 4), "\n")
+cat("Standard deviation of pA:", format(sigma_pA, digits = 4), "\n")
+cat("Standard deviation of pB|A:", format(sigma_pB_given_A, digits = 4), "\n")
+```
+
+
+The reason that $\hat{p}_{B|A}$ Is higher than $\hat{p}_A$ is because Alice's straight hand has already been observed, the remaining 3 cards in the deck can only be in specific positions that do not overlap with Alice's hand.
+This reduces the total number of possible hands for Bob, making it more likely for him to get a straight hand.
+
+
+The reason that $\hat{\sigma}(\hat{p}_{B|A})$ Is higher than $\hat{\sigma}(\hat{p}_A)$ is because the sample size A.K.A number of remain permutations used to estimate $\hat{p}_{B|A}$ is smaller than the number of remain permutations used to estimate $\hat{p}_A$, which can result a higher standard deviation for $\hat{p}_{B|A}$ (And of course, this also follows directly from the formula for the Bernoulli random variable)
+
+
+
+# Q2. Analysis and Visualization of the COVID-19 Data:
 
 ![](https://cdn.who.int/media/images/default-source/mca/mca-covid-19/coronavirus-2.tmb-1920v.jpg?sfvrsn=4dba955c_12)
 
+
+
 In this question we compare and visualize the trends in terms of numbers of COVID-19 `cases` and `deaths` for different world countries during the pandemic. 
+
+
 
 a. Read the COVID-19 dataset file `WHO-COVID-19-global-data.csv` from the [World's Health Organization](https://covid19.who.int/?gclid=Cj0KCQjwudb3BRC9ARIsAEa-vUuF5yzpzQUOyxXJvgsXDE6koerrpqO7go0BPBTylJbYh_fPSaYaMWUaAhNlEALw_wcB) webpage into an $R$ data-frame.
 
@@ -178,9 +608,13 @@ See the link `Data` and then `Data Download` that transfers you to the page with
 
 The data represents the daily number of cases and deaths from COVID19 in different world countries, from the start of the pandemic at $2020$ until the current date <br>
 
-Change the name of the column representing the date to `Date`. Make sure that this column represents only the date and set it to 'date' type. For example, the first element in the 'Date' column should be "2020-02-24". <br>
+Change the name of the column representing the date to `Date`. Make sure that this column represents only the date and set it to 'date' type. For example, the first element in the 'Date' column should be "2020-01-03". <br>
 
 Show the head and tail of the resulting data-frame. 
+
+
+
+
 
 b. In this sub-question and the next one, we're interested in plotting the COVID-19 trends in `Israel` and its neighbors. 
 
@@ -194,6 +628,12 @@ Next, plot the `cumulative` number of `cases` as a function of the `Date` for th
 
 Repeat and show in a different plot the `cumulative` number of `deaths` for each of these countries. 
 
+
+
+
+
+
+
 c. Load the economic dataset available in moodle in the file `economic_data.csv` with demographic and economic information on world countries. 
 
 Merge the two data-frames such that the new data-frame will keep the information in the COVID-19 data-frame, yet will also contain for each row the total population of each country in $2018$. 
@@ -202,23 +642,29 @@ Manually rename country names that do not match between the two datasets - you d
 
 (b.) and of the next sub-questions. <br>
 
-Create four new columns, respectively representing the number of cumulative `cases` and `deaths` per one million people, and the number of new daily `cases` and `deaths` per one million people, for each country and date. <br>
+Create four new columns, respectively representing the number of *cumulative* `cases` and `deaths` per one million people, and the number of *new* daily `cases` and `deaths` per one million people, for each country and date. <br>
 
 For the same countries used in (b.), plot in two separate figures
 
-the log-scaled `cumulative` number of `cases` and `deaths` per million, as a function of the Date. <br>
+the *log-scaled* `cumulative` number of `cases` and `deaths` per million, as a function of the Date. <br>
 
 Which countries suffered the most from the pandemic based on these plots? how did Israel do compared to its neighbors?
+
+
 
 d. One measure of the healthcare system strength in a country is the ratio between the number of deaths and the number of cases (with the caveats that this number is affected by other things like
 
 the population age-structure, the fact that testing and diagnosing cases are different between countries etc.). <br> 
 
-Extract for all countries the latest reported cumulative number of `cases per million` and `deaths per million` per country (it is recommended to create a new data-frame with one row per country), and make a scatter-plot comparing the two shown on a `log-scale`.  
+Extract for *all* countries the latest reported cumulative number of `cases per million` and `deaths per million` per country (it is recommended to create a new data-frame with one row per country), and make a scatter-plot comparing the two shown on a `log-scale`.  
 
 Fit a linear regression line to the log-scaled data. <br>
 
 Define the `fatality rate` as the ratio between the latest reported cumulative numbers of `deaths` and `cases`, i.e. an estimate of the probability that an infected individual died form the disease. Display the distribution of `fatality rate` across countries using a plotting method of your choice. Describe the distribution: what is the mean/median? is it symmetric? skewed? are there outlier countries? which ones?
+
+
+
+
 
 e. Find the countries suffering the highest number of deaths by COVID-19, i.e. those with $>200,000$ cumulative number of `deaths`.
 
@@ -232,12 +678,449 @@ Which countries were hit earliest/latest by the pandemic?
 
 Is there a different in the number of waves suffered by each country? 
 
+
+
+
+
+
+
 f. Plot the new  number of `cases` and `death` as a function of the date in each of the six `WHO_regions`: `EMRO`,  `EURO`,  `AFRO`,  `WPRO`,  `AMRO`,  `SEARO` (filter `Others`), in two separate plots (each region in a different color). Describe the results. <br>
 
 Create a new column representing `GDP per capita` for each country. Then, plot the empirical CDF of the `GDP per capita` and the 
 
 percent of population above $65$ (`pop65`) in each of the six `WHO_regions`, in two separate plots (each region in a different color). Describe the results.
 
-*Solutions: QU. 2*
 
-[Write your code and text explanations here]
+
+
+
+
+
+
+
+**Solutions: QU. 2**
+
+
+## Sub-section A:
+
+```{r, warning=FALSE, message=FALSE}
+# Reading the data and assign it to DF_COVID_cases
+DF_COVID_cases <- read.csv('WHO-COVID-19-global-data.csv')
+
+# Rename the "Date_reported" column to "Date" for convenience
+colnames(DF_COVID_cases)[colnames(DF_COVID_cases) == "Date_reported"] <- "Date"
+
+# Change the Date column to <date> type
+DF_COVID_cases$Date <- as.Date(parse_date_time(DF_COVID_cases$Date, orders = c("mdy", "dmy")))
+
+# Display the head of DF_COVID_cases excluding columns 2 and 4
+head(DF_COVID_cases[, -c(2, 4)])
+
+# Display the tail of DF_COVID_cases excluding columns 2 and 4
+tail(DF_COVID_cases[, -c(2, 4)])
+```
+
+
+I read the data from a CSV file named 'WHO-COVID-19-global-data.csv' and assign it to a variable called DF_COVID_cases.
+Then, to make it more convenient, i rename the column "Date_reported" to "Date" using the colnames function and indexing. This will make it easier to refer to this column later.
+Next, i convert the values in the "Date" column to the date type. i use the as.Date function along with the parse_date_time function from a package called lubridate. This function helps me parse the date string into the appropriate date format. I specify the order of parsing as either "mdy" or "dmy" to handle different date formats.
+
+To get a glimpse of the data, i display the first and last few rows of the DF_COVID_cases dataset using the head and tail function. i exclude columns 2 and 4 ("Country_code" and "WHO_region" columns to a relevant presentation) from the displayed output by indexing with the negative sign (-c(2, 4)) .
+
+
+## Sub-section B:
+
+
+```{r, warning=FALSE, message=FALSE}
+# finding complicated or long Country names to rename them
+Country_names <- unique(DF_COVID_cases$Country)
+
+# Renaming complicated country names that are maybe Israel neighbors
+DF_COVID_cases$Country[DF_COVID_cases$Country == "Türkiye"] <- "Turkey"
+DF_COVID_cases$Country[DF_COVID_cases$Country == "Iran (Islamic Republic of)"] <- "Iran"
+DF_COVID_cases$Country[DF_COVID_cases$Country == "Syrian Arab Republic"] <- "Syria"
+
+# Creating Candidate neighbor Data frame and adding
+# neighbor countries to my opinion 
+near_by_countries <- subset(DF_COVID_cases, WHO_region == "EMRO" | Country == "Israel" | Country == "Cyprus" | Country == "Lebanon" | Country == "Greece")
+
+# Removing far away countries in the region
+countries_to_exclude <- c("Djibouti","Bahrain", "Sudan", "Afghanistan", "Tunisia", "Pakistan", "Libya", "Somalia", "Yemen", "Qatar", "Iran", "Morocco", "Oman","occupied Palestinian territory, including east Jerusalem","United Arab Emirates")
+near_by_countries <- near_by_countries[!near_by_countries$Country %in% countries_to_exclude, ]
+
+# Displaying the names of the 10 Countries i chose
+chosen_countries <- unique(near_by_countries$Country)
+chosen_countries
+```
+
+
+I wanted to find complicated or long country names, so i created a variable called Country_names and stored all the unique country names from the DF_COVID_cases dataset.
+Then, i renamed specific country names that could be neighboring Israel by directly assigning new values to the Country column based on conditional statements.
+Next, i created a data frame called near_by_countries by filtering the DF_COVID_cases dataset. i selected countries in the WHO_region that is "EMRO" (Eastern Mediterranean Region) and added is Israel and  neighboring countries based on my opinion.
+I removed far away countries in the region in my opinion.i defined a list of countries to exclude and filtered out those countries from the near_by_countries data frame.
+Finally, I displayed the names of the 10 chosen countries by extracting the unique values from the Country column of the near_by_countries data frame.
+
+
+```{r, message=FALSE, warning=FALSE}
+# Plot cumulative number of cases in Israel & it's neighbors
+ggplot(near_by_countries, aes(x = Date, y = Cumulative_cases, color = Country)) +
+  geom_line(size = ifelse(near_by_countries$Country == "Israel", 1.75, 0.5)) +
+  labs(x = "Date", y = "Cumulative Cases", color = "Country") +
+  ggtitle("Cumulative Number of COVID-19 Cases in Israel and neighbors") +
+  theme_minimal()
+```
+
+
+Looking at the cases plot, it's evident that Israel had a significantly higher cumulative number of COVID-19 cases compared to most of its neighbors (except Iraq) until 2022. In the early part of 2022, Israel witnessed a substantial and sharp surge in cases due to the emergence of the Omicron variant, marking their highest increase. As a result, Israel's cumulative case count surpassed that of the majority of its neighboring countries (except Greece, which exhibited a similar pattern).
+
+
+```{r, message=FALSE, warning=FALSE}
+# Plot cumulative number of death cases in Israel & it's neighbors
+ggplot(near_by_countries, aes(x = Date, y = Cumulative_deaths, color = Country)) +
+  geom_line(size = ifelse(near_by_countries$Country == "Israel", 1.75, 0.5)) +
+  labs(x = "Date", y = "Cumulative death Cases", color = "Country") +
+  ggtitle("Cumulative Number of COVID-19 deaths Cases in Israel and neighbors") +
+  theme_minimal()
+```
+
+Observing the deaths plot, it becomes apparent that the cumulative number of death cases in Israel falls somewhere in the middle when compared to its neighbors. However, this stands in stark contrast to the significant disparity observed in the number of general cases. Unlike the cases plot, Israel did not experience a sharp increase in deaths at the beginning of 2022 due to the Omicron variant. This stark difference could be attributed to the effective functioning of Israel's healthcare system, particularly when compared to countries like Greece, Iraq, or Egypt.
+
+
+## Sub-section C:
+
+
+```{r, warning=FALSE, message=FALSE}
+# Reading the data and assign it to DF_economic
+DF_economic <- read.csv('economic_data.csv')
+
+# Replacing all the ".." to NA
+DF_economic[DF_economic == ".."] <- NA
+
+# Changing column names in the DF_economic data frame for convenience
+colnames(DF_economic)[colnames(DF_economic) == "Country.Name"] <- "Country"
+colnames(DF_economic)[colnames(DF_economic) == "X2018..YR2018."] <- "Year_2018"
+colnames(DF_economic)[colnames(DF_economic) == "X2019..YR2019."] <- "Year_2019"
+
+# Changing the numeric columns from <char> to <double> for easier analysis
+year_columns <- c("Year_2018", "Year_2019")
+DF_economic[year_columns] <- lapply(DF_economic[year_columns], as.numeric)
+
+# finding problematic names of countries in both direction
+diff_name_countries_1 <- setdiff(DF_COVID_cases$Country, DF_economic$Country)
+diff_name_countries_2 <- setdiff(DF_economic$Country, DF_COVID_cases$Country)
+
+# changing the problematic names in the DF_economic to normal ones  
+DF_economic$Country[DF_economic$Country == "Bahamas, The"] <- "Bahamas"
+DF_economic$Country[DF_economic$Country == "Congo, Dem. Rep."] <- "Democratic Republic of the Congo"
+DF_economic$Country[DF_economic$Country == "Congo, Rep."] <- "Congo"
+DF_economic$Country[DF_economic$Country == "Korea, Dem. People’s Rep."] <- "North Korea"
+DF_economic$Country[DF_economic$Country == "Korea, Rep."] <- "South Korea"
+DF_economic$Country[DF_economic$Country == "Egypt, Arab Rep."] <- "Egypt"
+DF_economic$Country[DF_economic$Country == "Iran, Islamic Rep."] <- "Iran"
+DF_economic$Country[DF_economic$Country == "Slovak Republic"] <- "Slovakia"
+DF_economic$Country[DF_economic$Country == "Yemen, Rep."] <- "Yemen"
+DF_economic$Country[DF_economic$Country == "Micronesia, Fed. Sts."] <- "Micronesia"
+DF_economic$Country[DF_economic$Country == "Syrian Arab Republic"] <- "Syria"
+DF_economic$Country[DF_economic$Country == "Venezuela, RB"] <- "Venezuela"
+
+
+# changing the problematic names in the DF_COVID_cases to normal ones
+DF_COVID_cases$Country[DF_COVID_cases$Country == "Bolivia (Plurinational State of)"] <- "Bolivia"
+DF_COVID_cases$Country[DF_COVID_cases$Country == "Côte d’Ivoire"] <- "Cote d'Ivoire"
+DF_COVID_cases$Country[DF_COVID_cases$Country == "Czechia"] <- "Czech Republic"
+DF_COVID_cases$Country[DF_COVID_cases$Country == "Democratic People's Republic of Korea"] <- "North Korea"
+DF_COVID_cases$Country[DF_COVID_cases$Country == "Republic of Korea"] <- "South Korea"
+DF_COVID_cases$Country[DF_COVID_cases$Country == "Kosovo[1]"] <- "Kosovo"
+DF_COVID_cases$Country[DF_COVID_cases$Country == "Republic of Moldova"] <- "Moldova"
+DF_COVID_cases$Country[DF_COVID_cases$Country == "The United Kingdom"] <- "United Kingdom"
+DF_COVID_cases$Country[DF_COVID_cases$Country == "United States of America"] <- "United States"
+DF_COVID_cases$Country[DF_COVID_cases$Country == "Viet Nam"] <- "Vietnam"
+DF_COVID_cases$Country[DF_COVID_cases$Country == "Micronesia (Federated States of)"] <- "Micronesia"
+DF_COVID_cases$Country[DF_COVID_cases$Country == "Venezuela (Bolivarian Republic of)"] <- "Venezuela"
+
+# Creating a subset for the DF_economic so that i could merge more easily
+DF_economic_helper <- DF_economic[DF_economic$Series.Name == "Population, total", ]
+
+# Merging the two data frames while keeping the total population in 2018
+DF_Eco_Covid <- merge(DF_COVID_cases,DF_economic_helper, by = "Country")
+colnames(DF_Eco_Covid)[colnames(DF_Eco_Covid) == "Year_2018"] <- "Total_Pop_Year_2018"
+
+```
+
+
+I read the economic data from a CSV file and assign it to the DF_economic data frame.
+To handle missing values,i replace all occurrences of ".." with NA in the DF_economic data frame.
+Next, I rename certain columns in the DF_economic data frame for convenience
+To facilitate analysis, I convert the numeric columns "Year_2018" and "Year_2019" from character to double (numeric) type using the as.numeric function.
+To identify problematic country names in both data frames, i found the differences in country names between DF_COVID_cases and DF_economic and store them in diff_name_countries_1 and diff_name_countries_2 variables, respectively.
+I then proceed to correct the problematic country names in the DF_economic and DF_COVID_cases data frames. 
+To simplify the merging process, i create a subset of the DF_economic data frame called DF_economic_helper, containing only the rows where the Series.Name is "Population, total".
+Next, i merge the DF_COVID_cases and DF_economic_helper data frames based on the "Country" column, creating a new data frame called DF_Eco_Covid. This merge allows me to combine the COVID-19 data with the total population in 2018.
+Finally, i rename the "Year_2018" column in the DF_Eco_Covid data frame to "Total_Pop_Year_2018" for clarity.
+
+
+```{r, warning=FALSE, message=FALSE}
+# Creating a new columns for cumulative cases and deaths per 1M people
+DF_Eco_Covid <- DF_Eco_Covid %>%
+  mutate(
+    Cumulative_cases_per_1M = if_else(
+      is.na(Total_Pop_Year_2018),
+      NA,
+      Cumulative_cases * 1000000 / Total_Pop_Year_2018
+    ),
+    Cumulative_deaths_per_1M = if_else(
+      is.na(Total_Pop_Year_2018),
+      NA,
+      Cumulative_deaths * 1000000 / Total_Pop_Year_2018
+    )
+  )
+
+# Creating a new columns for new daily cases and deaths per 1M people
+DF_Eco_Covid <- DF_Eco_Covid %>%
+  mutate(
+    New_daily_cases_per_1M = if_else(
+      is.na(Total_Pop_Year_2018),
+      NA,
+      New_cases * 1000000 / Total_Pop_Year_2018
+    ),
+    New_daily_deaths_per_1M = if_else(
+      is.na(Total_Pop_Year_2018),
+      NA,
+      New_deaths * 1000000 / Total_Pop_Year_2018
+    )
+  )
+```
+
+
+Using the dplyr package, I leverage the %>% operator to perform the following operations:
+I first use the mutate function to create the "Cumulative_cases_per_1M" column.
+I calculate the values by dividing the cumulative cases by the total population in 2018 and then multiplying by 1 million.
+If the total population is missing (NA), I assign NA to the "Cumulative_cases_per_1M" column.
+Similarly, I have done it to the "Cumulative_deaths_per_1M" column. 
+Next, I use mutate again to create additional columns for new daily cases and deaths per 1 million people.
+In the "New_daily_cases_per_1M" column, I calculate the values by dividing the new daily cases by the total population in 2018 and multiplying by 1 million. If the total population is missing, NA is assigned to the "New_daily_cases_per_1M" column.
+Similarly, I have done it to the "New_daily_deaths_per_1M" column
+
+
+```{r, warning=FALSE, message=FALSE}
+# Filter the data frame based on the country list i chose in b
+DF_chosen <- DF_Eco_Covid[DF_Eco_Covid$Country %in% chosen_countries, ]
+
+# Plot the Cumulative Number of COVID-19 Cases in Israel & it's neighbors per 1M
+ggplot(DF_chosen, aes(x = Date, y = log(Cumulative_cases_per_1M), color = Country)) +
+  geom_line(size = ifelse(DF_chosen$Country == "Israel", 1.75, 0.5)) +
+  labs(x = "Date", y = "Cumulative Cases per 1M (log trasfomation)", color = "Country") +
+  ggtitle("Cumulative Number of COVID-19 Cases in Israel and neighbors per 1M") +
+  ylim(0,15)+
+  theme_minimal()
+```
+
+In this plot, I depict the growth rate of Covid cases relative to the population numbers of Israel and its neighboring countries. The y-axis is presented in a logarithmic scale, which means that a value of 5 on the graph corresponds to taking the exponential value of 5 (e^5), multiplying it by the country's population divided by a million, and obtaining the number of cases for that specific country.
+To enhance understanding, I have scaled the y-values from 0 upwards, excluding negative values that can occur due to logarithmic scaling. When the y-value is 0, it indicates that there is 1 Covid case per million people.
+Throughout the majority of the pandemic period, Israel has experienced the highest number of cases in proportion to its population compared to its neighboring countries. Greece and Cyprus also encountered significant case numbers relative to their populations. Notably, there was a brief period in the middle of 2020 when Kuwait had the highest number of cases.
+
+
+```{r, warning=FALSE, message=FALSE}
+# Plot the Cumulative Number of COVID-19 Cases in Israel & it's neighbors per 1M
+ggplot(DF_chosen, aes(x = Date, y = log(Cumulative_deaths_per_1M), color = Country)) +
+  geom_line(size = ifelse(DF_chosen$Country == "Israel", 1.75, 0.5)) +
+  labs(x = "Date", y = "Cumulative deaths per 1M (log trasfomation)", color = "Country") +
+  ggtitle("Cumulative Number of COVID-19 deaths in Israel and neighbors per 1M") +
+  ylim(0,10)+
+  theme_minimal()
+```
+
+Similar to before, the y-axis is presented in a logarithmic scale. This means that a value of 5 on the graph represents taking the exponential value of 5 (e^5), multiplying it by the country's population divided by a million, and obtaining the number of deaths for that specific country.
+Once again, I have scaled the y-values from 0 upwards to exclude negative values resulting from logarithmic scaling. When the y-value is 0, it indicates 1 Covid death case per million people.
+Examining this plot, we observe that Israel's graph appears more moderate compared to its position in the previous plot. From this, we can infer that the recovery rate in Israel was particularly good and slightly better than in Greece, Lebanon, and Kuwait. This observation suggests that Israel's healthcare system may have played a significant role in this favorable outcome when compared to its neighboring countries. 
+
+
+## Sub-section D:
+
+
+```{r, warning=FALSE, message=FALSE}
+# Creating a new DF with the latest data for each country
+DF_Eco_Covid_unique <- DF_Eco_Covid[DF_Eco_Covid$Date == "2023-06-28",]
+
+# Removing countries without any relevant information (has NA in each column)
+NA_Countries <- c("Eritrea", "North Korea", "Turkmenistan")
+DF_Eco_Covid_unique <- DF_Eco_Covid_unique %>%
+  filter(!Country %in% NA_Countries)
+
+# Make a scatter plot for cases & deaths per 1M people
+ggplot(data = DF_Eco_Covid_unique, aes(x = log(Cumulative_cases_per_1M),
+                 y = log(Cumulative_deaths_per_1M))) +
+    geom_point(fill = "coral" ,shape=21)+
+    geom_smooth(method = "lm", se = FALSE, color = "navy")+
+    xlim(0, 18)+
+    ylim(0,9)+ 
+    labs(title = " cumulative cases and deaths per 1M people", x = " Cumulative Cases (Log) ", y = "Cumulative Deaths (log)")
+```
+
+When examining this plot, we observe a linear prediction of approximately Y = 0.5X. This indicates that the growth in terms of death cases was significantly pronounced throughout the entire period of the Covid pandemic until it reached a ratio of approximately 1:2 (around 1 death per 180 cases) per 1 million people. 
+
+
+```{r, warning=FALSE, message=FALSE}
+#Calculating the fatality rate and remove rows with non-finite values.
+DF_Eco_Covid_unique <- DF_Eco_Covid_unique %>%
+  mutate(fatality_rate = Cumulative_deaths / Cumulative_cases)
+
+# Plot of the Distribution of fatality rate across countries
+ggplot(DF_Eco_Covid_unique, aes(x = fatality_rate)) +
+  geom_density(fill = "green", alpha = 0.5) +
+  labs(x = "Fatality Rate", y = "Density", title = "Distribution of fatality rate across countries")
+
+# creating and displaying the statistical analysis
+statistical_analysis <- DF_Eco_Covid_unique %>%
+  summarize(
+    avarege = mean(fatality_rate, na.rm = TRUE),
+    Median = median(fatality_rate, na.rm = TRUE),
+    Skewness = skewness(fatality_rate, na.rm = TRUE),
+    Kurtosis = kurtosis(fatality_rate, na.rm = TRUE),
+    SD = sd(fatality_rate, na.rm = TRUE)
+  ) %>%
+  mutate(across(everything(), ~ round(., digits = 3)))
+
+print(statistical_analysis)
+
+# Finding and extracting the outlier Countries the by defining a 2 SD distance 
+outlier_countries <- DF_Eco_Covid_unique[(DF_Eco_Covid_unique$fatality_rate - mean(DF_Eco_Covid_unique$fatality_rate) > 2 * sd(DF_Eco_Covid_unique$fatality_rate)), "Country"]
+
+cat("The Outlier Countries for the fatality rate distribution are:", paste(outlier_countries, collapse = ", "), "\n")
+
+
+```
+
+
+
+The distribution of fatality rates among countries exhibits interesting characteristics.
+The median is lower than the mean, suggesting the presence of a few countries with high fatality rates.
+The statistic summary and plots reveal a high kurtosis value, indicating heavy tails and a sharper peak compared to a normal distribution.
+This suggests the existence of a small number of outlier countries with exceptionally high fatality rates, contributing to the high kurtosis. Additionally, the fatality rate distribution is right-skewed, as evident from the plot.
+The positive skewness signifies  an asymmetric distribution and longer right tail, indicating that while most countries have relatively lower fatality rates, there are a few countries with significantly higher fatality rates.
+Notably, Yemen stands out as a significant outlier with an 18% fatality rate, which is remarkably high compared to other countries.
+
+*NOTE:* The condition i chose for the outlier countries was a fatality rate that extreme from the mean by 2 standard deviation.by logic, i didn't use absolute value in this case beacuse givan the mean and SD i got, a country can't have a lower the 2 SD from the mean (rate is between 0 and 1)
+
+
+## Sub-section E:
+
+
+```{r, warning=FALSE, message=FALSE}
+# finding the countries with over 200000 deaths for covid to this day
+high_death_countries <- DF_Eco_Covid_unique %>%
+  filter(Cumulative_deaths > 200000) %>%
+  pull(Country)
+high_death_countries
+
+# Creating a mini data frame for the countries with over 200,000 deaths
+high_death_Data <- subset(DF_Eco_Covid, Country %in% high_death_countries)
+
+# Removing negative values that were found (not logical - cannot have a negative number of new cases) 
+high_death_Data <- subset(high_death_Data, !(New_cases < 0))
+
+# Plotting the smoothed number of new daily cases
+ggplot(data = high_death_Data, aes(x = Date, y = New_cases, color = Country)) +
+  geom_smooth(se = FALSE) +
+  labs(title = "Smoothed Number of New Daily Cases", x = "Date", y = "New Cases") +
+  theme_minimal()
+```
+
+
+The graph illustrates the rate of spread of COVID-19 to countries with a high number of deaths.
+When observing Mexico and Peru, we can observe a moderate and low trend, suggesting that the pandemic's impact was not in terms of quantity but rather the devastating consequences for those who contracted the virus.
+The Russian Federation and the United Kingdom encountered a wave of new cases within a relatively short timeframe at the beginning of 2022.
+This may indicate that their healthcare systems were unprepared for the surge, resulting in an increase in mortality.
+Brazil and India experienced a similar wave around March 2021, with comparable magnitudes.
+In a way that is obvious to the eye, the graph for the United States exhibits the highest volatility, with extreme spikes in new cases aligning with the times when other countries also experienced surges.
+Unfortunately, this pattern could imply a lack of effective government measures or disobedience by residents towards isolation conditions, leading to a significant number of deaths.
+The United States, India, and Brazil were among the first countries to be severely affected by the pandemic, experiencing its impact early on. On the other hand, Peru and Mexico were among the countries that encountered the effects of the virus at a later stage.
+
+
+## Sub-section F:
+
+
+```{r, warning=FALSE, message=FALSE}
+# Removing negative values that were found (not logical - cannot have a negative number of new death)  
+DF_Eco_Covid <- DF_Eco_Covid[!DF_Eco_Covid$New_deaths < 0,]
+DF_Eco_Covid <- DF_Eco_Covid[!DF_Eco_Covid$New_cases < 0,]
+
+# Creating a plot for new daily cases
+ggplot(DF_Eco_Covid, aes(x = Date, y = New_cases, color = WHO_region)) +
+  geom_line() +
+  labs(title = "New Cases of Covid by Region", x = "Date", y = "New Cases") +
+  theme_minimal()
+```
+
+The plot clearly depicts a significant surge in new cases in the The Western Pacific region at the start of 2023, completely altering the scale of the graph. This surge can mainly be attributed to the impact of China,which is alarming considering it was 6 months ago.
+The regions of Africa and the Middle East are relatively concealed within the graph, indicating that they had fewer new cases during the specified time period.
+Europe, on the other hand, underwent four prominent peaks of new cases between 2022 and 2023, with each subsequent peak occurring at a diminishing pace.
+
+
+```{r, warning=FALSE, message=FALSE}
+# Creating a plot for new daily cases of death
+ggplot(DF_Eco_Covid, aes(x = Date, y = New_deaths, color = WHO_region)) +
+  geom_line() +
+  labs(title = "New death Cases of Covid by Region", x = "Date", y = "New death Cases") +
+  theme_minimal()
+```
+
+
+
+The plot reveals that there were two significant spikes in daily death cases in America, and after i checked it's duo to Chile and Ecuador. Similarly, Europe (Germany and Spain) and Asia (India) also experienced two notable peaks in death cases. Additionally, the The Western Pacific region exhibited a high density of cases during the same period when a significant increase in case numbers was observed in the previous plot. In the middle of 2021, Europe encountered an extended duration of exceptionally high death case numbers.
+
+
+```{r, warning=FALSE, message=FALSE}
+# Extracting GDP data and renaming the column
+DF_GDP <- DF_economic[DF_economic$Series.Name == "GDP, PPP (current international $)", c(1, 5)]
+colnames(DF_GDP)[2] <- "GDP"
+
+# Extracting population data and renaming the column
+DF_POP <- DF_economic[DF_economic$Series.Name == "Population, total", c(1, 5)]
+colnames(DF_POP)[2] <- "pop"
+
+# Merging GDP and population data by country
+DF_CDF_GDP <- merge(DF_POP, DF_GDP, by = "Country", all = TRUE)
+DF_CDF_GDP <- na.omit(DF_CDF_GDP)
+
+# Calculating GDP per capita
+DF_CDF_GDP$GDP_per_capita <- DF_CDF_GDP$GDP / DF_CDF_GDP$pop
+
+# Extracting population ages 65 and above data and renaming the column
+DF_65 <- DF_economic[DF_economic$Series.Name == "Population ages 65 and above (% of total population)", c(1, 5)]
+colnames(DF_65)[2] <- "pop_65"
+DF_65 <- na.omit(DF_65)
+
+# Merging GDP per capita and population ages 65 and above data
+DF_CDF_GDP <- merge(DF_CDF_GDP, DF_65, by = "Country", all = TRUE)
+
+# Merging COVID cases data with GDP per capita and population data
+DF_COVID_cases <- merge(DF_COVID_cases, DF_CDF_GDP, by = "Country", all = TRUE)
+
+# Plotting ECDF (Empirical Cumulative Distribution Function) by WHO region and GDP per capita
+ggplot(DF_COVID_cases[!is.na(DF_COVID_cases$WHO_region), ]) +
+  stat_ecdf(aes(GDP_per_capita, color = WHO_region)) +
+  labs(title = "ECDF of GDP per Capita by WHO Region", y = "Cumulative Probability")
+```
+
+The examination demonstrates that Africa exhibits a more pronounced upward trend in GDP compared to other regions, whereas Europe displays a more gradual incline. This suggests contrasting patterns of wealth distribution across regions.
+When considering GDP per capita, Europe shows a slower rate of growth, implying a broader distribution and potentially higher levels of income inequality.
+On the other hand, Africa and SEARO experience a faster rate of growth, suggesting a narrower distribution and potentially lower levels of income inequality.
+
+
+
+```{r, warning=FALSE, message=FALSE}
+# Plotting ECDF (Empirical Cumulative Distribution Function) by WHO region and population ages 65 and above
+ggplot(DF_COVID_cases[!is.na(DF_COVID_cases$WHO_region), ]) +
+  stat_ecdf(aes(pop_65, color = WHO_region)) +
+  labs(title = "ECDF of Population Ages 65 and Above by WHO Region", y = "Cumulative Probability")
+
+```
+
+
+Europe displays a slower rate of increase in the percentage of the population above 65, indicating a wider distribution across different areas and socioeconomic factors.
+This suggests variations in age demographics within the region. In terms of wealth distribution, Europe demonstrates more equitable patterns compared to Africa, with other regions falling somewhere in between.
+Similarly, when considering the percentage of adults over 65, Europe exhibits greater consistency among countries compared to Africa, while other regions show less pronounced variations in this age demographic.
+
+
+In conclusion, the analysis underscores disparities in wealth distribution and age demographics across regions, with Africa and Europe representing contrasting cases, while other regions occupy intermediate positions.
