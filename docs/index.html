@@ -2781,90 +2781,14 @@ border-radius: 0px;
 
 <h1 class="title toc-ignore">Probability Simulations &amp; COVID-19 Data
 Analysis</h1>
-<h3 class="subtitle">Data Analysis with R (52414), Hebrew University,
-2022-23: Home Exam</h3>
+<h3 class="subtitle">Monte Carlo simulation and an analysis of WHO and
+World Bank data</h3>
 <h4 class="author">Ido Shalom</h4>
 <h4 class="date">July 7th, 2023</h4>
 
 </div>
 
 
-<div id="submission-instructions-please-read-carefully" class="section level1">
-<h1>Submission Instructions (Please read carefully)</h1>
-<p>The exam will be submitted <strong>individually</strong> by uploading
-the solved exam <code>Rmd</code> and <code>html</code> files to the
-course <code>moodle</code>.</p>
-<p>Please name your files as <code>52414-HomeExam_2022_23_ID.Rmd</code>
-and <code>52414-HomeExam_2022_23_ID.html</code> where <code>ID</code> is
-replaced by your ID number (do <strong>not</strong> write your
-<strong>name</strong> in the file name or in the exam itself).</p>
-<p><strong>Grading:</strong> There are <span class="math inline">\(2\)</span> questions with overall <span class="math inline">\(10\)</span> sub-questions. Each sub-question is
-worth <span class="math inline">\(10\)</span> points for the exam
-grade.</p>
-<p>Once you click on the <code>moodle</code> link for the home exam, the
-exam will start and you have three days (72 hours) to complete and
-submit it.</p>
-<p>The exam will be available from July 2nd, at 9am. The last submission
-time is July 7th at 5pm. <br></p>
-<p>You may use all course materials, the web and other written materials
-and R libraries.</p>
-<p>You are NOT allowed to discuss any of the exam questions/materials
-with other students.</p>
-<p><strong>Analysis and Presentation of Results:</strong></p>
-<p>Write your answers and explanations in the text of the
-<code>Rmd</code> file (<em>not</em> in the <code>code</code>). <br></p>
-<p>The text of your answers should be next to the relevant code, plots
-and tables and refer to them, and not at a separate place at the end.
-<br></p>
-<p>You need to explain every step of your analysis. When in doubt, a
-more detailed explanation is better than omitting explanations.</p>
-<p>Give informative titles, axis names and names for each curve/bar in
-your graphs.</p>
-<p>In some graphs you may need to change the graph limits. If you do so,
-please include the outlier points you have removed in a separate table.
-<br></p>
-<p>Add informative comments explaining your code <br></p>
-<p>Whenever possible, use <strong>objective</strong> and
-<strong>specific</strong> terms and quantities learned in class, and
-avoid <strong>subjective</strong> and <strong>general</strong>
-non-quantified statements. For example: <br></p>
-<p><code>Good:</code> “We see a <span class="math inline">\(2.5\)</span>-fold increase in the curve from
-Jan. 1st to March 1st”. <br></p>
-<p><code>Bad:</code> “The curve goes up at the beginning”. <br></p>
-<p><code>Good:</code> “The median is <span class="math inline">\(4.7\)</span>. We detected five outliers with
-distance <span class="math inline">\(&gt;3\)</span> standard deviations
-from the median”. <br></p>
-<p><code>Bad:</code> “The five points on the sides seem far from the
-middle”.</p>
-<p>Sometimes <code>Tables</code> are the best way to present your
-results (e.g. when asked for a list of items). Exclude irrelevant</p>
-<p>rows/columns. Display clearly items’ names in your
-<code>Tables</code>.</p>
-<p>Show numbers in plots/tables using standard digits and not scientific
-display.</p>
-<p>That is: 90000000 and not 9e+06.</p>
-<p>Round numbers to at most 3 digits after the dot - that is, 9.456 and
-not 9.45581451044</p>
-<p>Some questions may require data wrangling and manipulation which you
-need to</p>
-<p>decide on. The instructions may not specify precisely the exact plot
-you should use</p>
-<p>(for example: <code>show the distribution of ...</code>). In such
-cases, you should decide what and how to show the results.</p>
-<p>When analyzing real data, use your best judgment if you encounter
-missing values, negative values, NaNs, errors in the data etc.
-(e.g. excluding them, zeroing negative values..) and mention what you
-have done in your analysis in such cases.</p>
-<p>Required libraries are called in the <code>Rmd</code> file. Install
-any library missing from your <code>R</code> environment. You are
-allowed to add additional libraries if you want.</p>
-<p>If you do so, <strong>add them at the start of the Rmd file, right
-below the existing libraries, and explain what libraries you’ve added,
-and what is each new library used for</strong>.</p>
-<p>This is an .Rmd file. Copy it with your mouse to create and Rmd file,
-and edit the file to include your questions.</p>
-<p>Good luck!</p>
-</div>
 <div id="set---up" class="section level1">
 <h1>Set - up</h1>
 <pre class="r"><code>knitr::opts_chunk$set(echo = TRUE)
@@ -2921,8 +2845,7 @@ integers <span class="math inline">\((a_1, a_2, a_3, a_4, ..,
 a_k)\)</span> such that <span class="math inline">\(v(a_1) = a_2, v(a_2)
 = a_3, .., v(a_{k-1})=a_k\)</span> and <span class="math inline">\(v(a_k) = 1\)</span>. For example, for the
 permutation <span class="math inline">\(v = (3,4,1,5,2)\)</span> we have
-the cycle <span class="math inline">\((1,3)\)</span> of length <span class="math inline">\(2\)</span> because <span class="math inline">\(v(1) = 3\)</span> and <span class="math inline">\(v(3) = 1\)</span>. We also have the cycle <span class="math inline">\((2,4,5)\)</span> of length <span class="math inline">\(3\)</span>, because <span class="math inline">\(v(2) = 4, v(4) = 5\)</span> and <span class="math inline">\(v(5)=2\)</span>. See also another example of the
-cycles of a permutation in the figure above. <br></li>
+the cycle <span class="math inline">\((1,3)\)</span> of length <span class="math inline">\(2\)</span> because <span class="math inline">\(v(1) = 3\)</span> and <span class="math inline">\(v(3) = 1\)</span>. We also have the cycle <span class="math inline">\((2,4,5)\)</span> of length <span class="math inline">\(3\)</span>, because <span class="math inline">\(v(2) = 4, v(4) = 5\)</span> and <span class="math inline">\(v(5)=2\)</span>. <br></li>
 </ol>
 <p>Let <span class="math inline">\(X_k\)</span> be the number of cycles
 of length <span class="math inline">\(k\)</span> in a random permutation
@@ -3436,9 +3359,8 @@ different curve per each country).</p>
 <p>Repeat and show in a different plot the <code>cumulative</code>
 number of <code>deaths</code> for each of these countries.</p>
 <ol start="3" style="list-style-type: lower-alpha">
-<li>Load the economic dataset available in moodle in the file
-<code>economic_data.csv</code> with demographic and economic information
-on world countries.</li>
+<li>Load the economic dataset in the file <code>economic_data.csv</code>
+with demographic and economic information on world countries.</li>
 </ol>
 <p>Merge the two data-frames such that the new data-frame will keep the
 information in the COVID-19 data-frame, yet will also contain for each

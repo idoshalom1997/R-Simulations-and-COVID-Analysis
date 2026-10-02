@@ -1,5 +1,7 @@
 # Probability Simulations & COVID-19 Data Analysis
 
+**Can simulation alone recover the answers to classic probability puzzles? And how did Israel's COVID-19 experience compare with its neighbours and the rest of the world?**
+
 An R project in two parts: **Monte Carlo simulation** of classic probability puzzles, and an **analysis of the COVID-19 pandemic** using WHO's daily data for every country merged with World Bank economic indicators.
 
 **[View the full report →](https://idoshalom1997.github.io/R-Simulations-and-COVID-Analysis/)**
@@ -8,7 +10,7 @@ An R project in two parts: **Monte Carlo simulation** of classic probability puz
 
 ## Part 1: Probability by simulation
 
-Each question is answered by simulating it 10,000-100,000 times, and the estimates land on the known theoretical answers.
+Each puzzle is answered by simulating it 10,000-100,000 times, and the estimates land on the known theoretical answers.
 
 | Puzzle | Simulated | Theory |
 |---|---|---|
@@ -41,7 +43,7 @@ install.packages(c("tidyverse", "maps", "rvest", "uniformly", "lubridate", "e107
 rmarkdown::render("home_exam.Rmd")
 ```
 
-The data is included in [`data/`](data): the WHO COVID-19 daily data (up to July 2023) and the course's economic indicators. The simulations use a fixed random seed, so the results are reproducible.
+The data is included in [`data/`](data): the WHO COVID-19 daily data (up to July 2023) and World Bank economic indicators. The simulations use a fixed random seed, so the results are reproducible.
 
 ## Tools
 
@@ -49,4 +51,4 @@ R · tidyverse · ggplot2 · Monte Carlo simulation · R Markdown
 
 ## Background
 
-Final home exam for *Data Analysis with R* (52414) at the Hebrew University of Jerusalem, July 2023 (B.Sc. Statistics & Data Science). Individual work.
+Built in July 2023 by Ido Shalom during the *Data Analysis with R* course at the Hebrew University of Jerusalem (B.Sc. Statistics & Data Science).

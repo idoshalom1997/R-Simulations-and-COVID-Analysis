@@ -1,6 +1,6 @@
 ---
 title: "Probability Simulations & COVID-19 Data Analysis"
-subtitle: "Data Analysis with R (52414), Hebrew University, 2022-23: Home Exam"
+subtitle: "Monte Carlo simulation and an analysis of WHO and World Bank data"
 output:
   html_document:
     theme: spacelab
@@ -13,110 +13,6 @@ output:
 author: "Ido Shalom"
 date: "July 7th, 2023"
 ---
-
-# Submission Instructions (Please read carefully)   
-
-
-
-The exam will be submitted **individually** by uploading the solved exam `Rmd` and `html` files to the course `moodle`. 
-
-Please name your files as `52414-HomeExam_2022_23_ID.Rmd` and `52414-HomeExam_2022_23_ID.html` where `ID` is replaced by your ID number (do **not** write your **name** in the file name or in the exam itself).
-
-
-
-**Grading:** There are $2$ questions with overall $10$ sub-questions. Each sub-question is worth $10$ points for the exam grade. 
-
-
-
-Once you click on the `moodle` link for the home exam, the exam will start and you have three days (72 hours) to complete and submit it. 
-
-The exam will be available from July 2nd, at 9am. The last submission time is July 7th at 5pm. <br>
-
-You may use all course materials, the web and other written materials and R libraries. 
-
-You are NOT allowed to discuss any of the exam questions/materials with other students. 
-
-
-
-
-
-**Analysis and Presentation of Results:**
-
-
-
-Write your answers and explanations in the text of the `Rmd` file (*not* in the `code`). <br>
-
-The text of your answers should be next to the relevant code, plots and tables and refer to them, and not at a separate place at the end. <br>
-
-You need to explain every step of your analysis. When in doubt, a more detailed explanation is better than omitting explanations. 
-
-
-
-Give informative titles, axis names and names for each curve/bar in your graphs. 
-
-In some graphs you may need to change the graph limits. If you do so, please include the outlier points you have removed in a separate table.  <br>
-
-Add informative comments explaining your code <br>
-
-
-
-Whenever possible, use **objective** and **specific** terms and quantities learned in class, and avoid **subjective** and **general** non-quantified statements. For example: <br>
-
-`Good:` "We see a $2.5$-fold increase in the curve from Jan. 1st to March 1st". <br>
-
-`Bad:` "The curve goes up at the beginning". <br>
-
-`Good:` "The median is $4.7$. We detected five outliers with distance $>3$ standard deviations from the median". <br>
-
-`Bad:` "The five points on the sides seem far from the middle". 
-
-
-
-Sometimes `Tables` are the best way to present your results (e.g. when asked for a list of items). Exclude irrelevant
-
-rows/columns. Display clearly items' names in your `Tables`.
-
-
-
-Show numbers in plots/tables using standard digits and not scientific display. 
-
-That is: 90000000 and not 9e+06.  
-
-Round numbers to at most 3 digits after the dot - that is, 9.456 and not 9.45581451044
-
-
-
-Some questions may require data wrangling and manipulation which you need to 
-
-decide on. The instructions may not specify precisely the exact plot you should use
-
-(for example: `show the distribution of ...`). In such cases, you should decide what and how to show the results. 
-
-
-
-When analyzing real data, use your best judgment if you encounter missing values, negative values, NaNs, errors in the data etc. (e.g. excluding them, zeroing negative values..) and mention what you have done in your analysis in such cases. 
-
-
-
-Required libraries are called in the `Rmd` file. Install any library missing from your `R` environment. You are allowed to add additional libraries if you want. 
-
-If you do so, **add them at the start of the Rmd file, right below the existing libraries, and explain what libraries you've added, and what is each new library used for**. 
-
-
-
-This is an .Rmd file. Copy it with your mouse to create and Rmd file, and edit the file to include your questions.
-
-
-
-
-
-
-
-Good luck!
-
-
-
-
 
 # Set - up
 
@@ -168,7 +64,7 @@ Estimate the probability that *no* letter was sent to the correct address for $n
 
 
 
-b. For a permutation $v \in S_n$,  a cycle of length $k$ is a vector of integers $(a_1, a_2, a_3, a_4, .., a_k)$ such that $v(a_1) = a_2, v(a_2) = a_3, .., v(a_{k-1})=a_k$ and $v(a_k) = 1$. For example, for the permutation $v = (3,4,1,5,2)$ we have the cycle $(1,3)$ of length $2$ because $v(1) = 3$ and $v(3) = 1$. We also have the cycle $(2,4,5)$ of length $3$, because $v(2) = 4, v(4) = 5$ and $v(5)=2$. See also another example of the cycles of a permutation in the figure above.  <br>
+b. For a permutation $v \in S_n$,  a cycle of length $k$ is a vector of integers $(a_1, a_2, a_3, a_4, .., a_k)$ such that $v(a_1) = a_2, v(a_2) = a_3, .., v(a_{k-1})=a_k$ and $v(a_k) = 1$. For example, for the permutation $v = (3,4,1,5,2)$ we have the cycle $(1,3)$ of length $2$ because $v(1) = 3$ and $v(3) = 1$. We also have the cycle $(2,4,5)$ of length $3$, because $v(2) = 4, v(4) = 5$ and $v(5)=2$.  <br>
 
 Let $X_k$ be the number of cycles of length $k$ in a random permutation of length $n$ selected uniformly from $S_n$.  
 
@@ -637,7 +533,7 @@ Repeat and show in a different plot the `cumulative` number of `deaths` for each
 
 
 
-c. Load the economic dataset available in moodle in the file `economic_data.csv` with demographic and economic information on world countries. 
+c. Load the economic dataset in the file `economic_data.csv` with demographic and economic information on world countries. 
 
 Merge the two data-frames such that the new data-frame will keep the information in the COVID-19 data-frame, yet will also contain for each row the total population of each country in $2018$. 
 
